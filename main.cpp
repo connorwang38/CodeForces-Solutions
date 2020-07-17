@@ -2,32 +2,46 @@
 using namespace std;
 typedef long long ll;
 
-vector <int> a[100000];
-int visited[100000];
-
-void dfs (int k) {
-    if (!visited[k]) {
-        visited[k] = 1;
-        for (int i = 0; i < a[k].size(); i++) {
-            if(!visited[a[k][i]]) {
-                dfs(a[k][i]);
-            }
+bool dir(int f, int s, int start, int finish, string str) {
+    int lcount = 0;
+    for (int i = start; i < start + (finish - start) / 2; i++) {
+        if (str[i] == 'a') {
+            lcount++;
         }
     }
+    int lcount2 = 0;
+    for (int i = start + (finish - start) / 2 + 1; i < finish; i++) {
+        if (str[i] == 'a') {
+            lcount2++;
+        }
+    }
+    return lcount > lcount2;
 }
 
 int main() {
-    int n = 5;
-    while (n--) {
-        int p, q; cin >> p >> q;
-        a[p].push_back(q);
-    }
-
-    int l, m; cin >> l >> m;
-    dfs(l);
-    if (visited[m] == 1) {
-        cout << "YES";
-    } else {
-        cout << "NO";
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        string s; cin >> s;
+        int k = n;
+        int count = 0;
+        while (k > 1) {
+            count++;
+            k /= 2;
+        }
+        bool directions[n];
+        int lcount = 0;
+        for (int i = 0; i < n / 2; i++) {
+            if (s[i] == 'a') {
+                lcount++;
+            }
+        }
+        int lcount2 = 0;
+        for (int i = n / 2 + 1; i < n; i++) {
+            if (s[i] == 'a') {
+                lcount2++;
+            }
+        }
+        cout << lcount << " " << lcount2 << "\n";
     }
 }
