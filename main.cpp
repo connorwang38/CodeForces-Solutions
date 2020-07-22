@@ -3,32 +3,39 @@ using namespace std;
 typedef long long ll;
 
 int main() {
-    string t;
-    getline(cin, t);
-    int n = stoi(t);
-    int answers[n];
-    string test = "abcdefghijklmnopqrstuvwxyz";
-    for (int j = 0; j < n; j++) {
-        vector <int> v (26);
-        fill(v.begin(), v.end(), 0);
-        string s;
-        getline(cin, s);
-        for (int i = 0; i < s.length(); i++) {
-            s[i] = tolower(s[i]);
-            for (int k = 0; k < 26; k++) {
-                if (s[i] == test[k]) {
-                    v[k] += 1;
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        vector <int> ans;
+        string a, b; cin >> a >> b;
+        int count = 0;
+        int cur = a[0] - '0';
+        int cur2 = a[a.length() - 1] - '0';
+        int flips = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (a[i] != b[i]) {
+                flips++;
+                if (cur != cur2) {
+                    ans.push_back(i + 1);
+                    count += 1;
+                } else {
+                    ans.push_back(1);
+                    ans.push_back(i + 1);
+                    count += 2;
+                }
+                if (flips % 2 == 1) {
+                    cur = abs((a[i / 2] - '0') - 1);
+                    cur2 = a[n - i / 2] - '0';
+                } else {
+                    cur = a[n - i / 2] - '0';
+                    cur2 = abs((a[i / 2] - '0') - 1);
                 }
             }
         }
-        sort(v.begin(), v.end());
-        int sum = 0;
-        for (int i = 26; i > 0; i--) {
-            sum += i * v[i - 1];
+        cout << count << " ";
+        for (int i = 0; i < ans.size(); i++) {
+            cout << ans[i] << " ";
         }
-        answers[j] = sum;
-    }
-    for (int i = 0; i < n; i++) {
-        cout << "Case #" << i + 1 << ": " << answers[i] << "\n";
+        cout << "\n";
     }
 }
